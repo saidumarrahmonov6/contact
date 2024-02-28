@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contact/add.dart';
+import 'package:contact/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MalumotApp extends StatefulWidget {
-  const MalumotApp({super.key});
+  final String? qulf;
+  const MalumotApp({this.qulf ,super.key});
 
   @override
   State<MalumotApp> createState() => _MalumotAppState();
@@ -26,9 +28,9 @@ class _MalumotAppState extends State<MalumotApp> {
             children: [
               InkWell(
                 onTap: (){
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>MyApp(qulf: "",)));
                 },
-                  child: Icon(Icons.lock, size: 30,)
+                  child: Icon(Icons.lock , size: 30,),
               )
             ],
           )
@@ -46,7 +48,7 @@ class _MalumotAppState extends State<MalumotApp> {
               },
               child: Row(
                 children: [
-                  Icon(Icons.lock_outline, size: 30,),
+                  Icon(Icons.lock , size: 30,),
                   Text("Qulflash" , style: TextStyle(fontSize: 25),),
                 ],
               ),
@@ -108,21 +110,32 @@ class _MalumotAppState extends State<MalumotApp> {
                             ),
                           ],
                         ),
-                        MaterialButton(
-                          minWidth: 60,
-                          onPressed: ()async{
-                            final Uri launcherUri = Uri(scheme: 'tel' , path: document['number']);
-                            await launchUrl(launcherUri);
-                          },
-                          child: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.white60,
-                              borderRadius: BorderRadius.circular(20)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            MaterialButton(
+                              onPressed: (){
+                                contact.doc(document.id).delete();
+                              },
+                              child: Icon(Icons.delete, size: 30,),
                             ),
-                              child: Icon(Icons.call, size: 50,)
-                          ),
+                            MaterialButton(
+                              minWidth: 40,
+                              onPressed: ()async{
+                                final Uri launcherUri = Uri(scheme: 'tel' , path: document['number']);
+                                await launchUrl(launcherUri);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white60,
+                                  borderRadius: BorderRadius.circular(20)
+                                ),
+                                  child: Icon(Icons.call, size: 30,)
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     ),

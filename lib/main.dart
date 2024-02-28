@@ -17,18 +17,27 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
+  final String? qulf;
+  const MyApp({this.qulf ,super.key});
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   CollectionReference login = FirebaseFirestore.instance.collection("login");
-
   TextEditingController logintxt = TextEditingController();
   TextEditingController passwordtxt = TextEditingController();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.qulf == 'ochiq'){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tayyor")));
+    } else {
+      print("Qulflangan");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +86,7 @@ class _MyAppState extends State<MyApp> {
                               print("Kirildi");
                               passwordtxt.clear();
                               logintxt.clear();
+                              widget.qulf == 'ochiq';
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Xato")));
                               print('xatolik');
@@ -87,14 +97,6 @@ class _MyAppState extends State<MyApp> {
                         ),
                       ),
                       SizedBox(height: 20,),
-                      // Container(
-                      //   child: MaterialButton(
-                      //     onPressed: (){
-                      //       Navigator.push(context, MaterialPageRoute(builder: (_)=> SingUp()));
-                      //     },
-                      //     child: Text("Ro'yxatdan o'tish"),
-                      //   ),
-                      // ),
                     ],
                   );
                 },

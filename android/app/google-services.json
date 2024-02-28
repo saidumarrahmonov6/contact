@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842174107394",
+    "project_id": "contact-dcf5b",
+    "storage_bucket": "contact-dcf5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842174107394:android:f965bf0eb8f8ab89563c1b",
+        "android_client_info": {
+          "package_name": "com.example.contact"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBsBaVaxasNTezaUmfqBEvDLpLZtCC1LY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
