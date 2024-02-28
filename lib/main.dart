@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contact/malumot.dart';
+import 'package:contact/royxatdan_otish.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  CollectionReference logins = FirebaseFirestore.instance.collection("logins");
+  CollectionReference login = FirebaseFirestore.instance.collection("login");
 
   TextEditingController logintxt = TextEditingController();
   TextEditingController passwordtxt = TextEditingController();
@@ -35,11 +36,11 @@ class _MyAppState extends State<MyApp> {
         title: Text("Contacts"),
       ),
       body: StreamBuilder(
-        stream: logins.snapshots(),
+        stream: login.snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Object?>> snapshot){
             if(snapshot.hasData){
               return ListView.builder(
-                itemCount: snapshot.data!.size,
+                itemCount: 1,
                 itemBuilder: (BuildContext context , int index){
                   DocumentSnapshot document = snapshot.data!.docs[index];
                   return Column(
@@ -70,12 +71,30 @@ class _MyAppState extends State<MyApp> {
                         height: 40,
                         child: MaterialButton(
                           onPressed: () {
-                            check(logintxt.text, passwordtxt.text, document);
+                            if(passwordtxt.text == document['password'] && document['login'] == logintxt.text){
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=> MalumotApp()));
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tayyor")));
+                              print("Kirildi");
+                              passwordtxt.clear();
+                              logintxt.clear();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Xato")));
+                              print('xatolik');
+                            }
                           },
-                          child: Text("Login"),
+                          child: Text("Kirish"),
                           color: Colors.green,
                         ),
-                      )
+                      ),
+                      SizedBox(height: 20,),
+                      // Container(
+                      //   child: MaterialButton(
+                      //     onPressed: (){
+                      //       Navigator.push(context, MaterialPageRoute(builder: (_)=> SingUp()));
+                      //     },
+                      //     child: Text("Ro'yxatdan o'tish"),
+                      //   ),
+                      // ),
                     ],
                   );
                 },
@@ -83,16 +102,11 @@ class _MyAppState extends State<MyApp> {
             } else if(snapshot.connectionState == ConnectionState.waiting){
               return Center(child: CircularProgressIndicator(),);
             } else {
-             return Center(child: Text("Nomalum xatolik !"),);
-            };
+              return Container(child: Text("Nomalum xatolik !"),);
+            }
           }
       )
     );
-  }
-  check(String login , String password , document){
-    if(login == document['login'] && password == document['password']){
-      Navigator.push(context, MaterialPageRoute(builder: (_)=> MalumotApp()));
-    }
   }
 }
 
